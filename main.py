@@ -10,9 +10,14 @@ class Dealer:
 
     def initialize_deck(self):
         """Create a standard 52-card deck."""
-        suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
-        ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
-        return [f"{rank} of {suit}" for suit in suits for rank in ranks]
+        if self.trait == 'standard':
+            suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
+            ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
+            return [f"{rank} of {suit}" for suit in suits for rank in ranks]
+        if self.trait == 'cunning':
+            suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
+            ranks = ['4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
+            return [f"{rank} of {suit}" for suit in suits for rank in ranks]
 
     def card_value(self, card):
         """Return the value of a card."""
@@ -41,8 +46,12 @@ class Dealer:
             return
 
         random.shuffle(self.deck)
-        self.hand = [self.deck.pop(0), self.deck.pop(0)]
-        player.hand = [self.deck.pop(0), self.deck.pop(0)]
+        if self.trait == 'standard':
+            self.hand = [self.deck.pop(0), self.deck.pop(0)]
+            player.hand = [self.deck.pop(0), self.deck.pop(0)]
+        if self.trait == 'cunning':
+            types = ["Hearts", "Diamonds", "Clubs", "Spades"]
+            self.hand = [self.deck.pop(0), f"Jack of {types[(random.randint(0, 2))]}"]
 
         print(f"Dealer shows: {self.hand[0]}")
         print(f"Player has: {player.hand[0]} and {player.hand[1]}")
